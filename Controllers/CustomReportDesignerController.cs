@@ -38,7 +38,6 @@ namespace ReportingBackendApp.Controllers
             ds.RebuildResultSchema();
 
             var designerModel = await reportDesignerModelBuilder
-                .Report(reportName)
                 .DataSources(x => { x.Add("ReportsConnectionString", ds); })
                 .BuildModelAsync();
 
