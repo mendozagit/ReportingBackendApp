@@ -3,11 +3,10 @@ using DevExpress.XtraReports.Web.Extensions;
 
 namespace ReportingBackendApp.Models;
 
-
-
 public class ReportStorage : ReportStorageWebExtension
 {
     protected ApplicationDbContext DbContext { get; set; }
+
     public ReportStorage(ApplicationDbContext dbContext)
     {
         DbContext = dbContext;
@@ -49,7 +48,9 @@ public class ReportStorage : ReportStorageWebExtension
             report.SaveLayoutToXml(ms);
             return ms.ToArray();
         }
-        throw new DevExpress.XtraReports.Web.ClientControls.FaultException(string.Format("Could not find report '{0}'.", url));
+
+        throw new DevExpress.XtraReports.Web.ClientControls.FaultException(string.Format("Could not find report '{0}'.",
+            url));
     }
 
     public override Dictionary<string, string> GetUrls()
@@ -70,16 +71,23 @@ public class ReportStorage : ReportStorageWebExtension
         // (saves existing reports only). 
         using var stream = new MemoryStream();
         report.SaveLayoutToXml(stream);
-        
+
         var reportData = DbContext.Reports.FirstOrDefault(x => x.Name == url);
         if (reportData == null)
         {
-            DbContext.Reports.Add(new ReportItem { Name = url, LayoutData = stream.ToArray() });
+            var reportItem = new ReportItem
+            {
+                Name = url,
+                DisplayName = url,
+                LayoutData = stream.ToArray()
+            };
+            DbContext.Reports.Add(reportItem);
         }
         else
         {
             reportData.LayoutData = stream.ToArray();
         }
+
         DbContext.SaveChanges();
     }
 

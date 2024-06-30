@@ -34,7 +34,10 @@ builder.Services.ConfigureReportingServices(configurator =>
         configurator.UseDevelopmentMode();
     }
 
-    configurator.ConfigureReportDesigner(designerConfigurator => { });
+    configurator.ConfigureReportDesigner(designerConfigurator =>
+    {
+        designerConfigurator.RegisterDataSourceWizardConfigFileConnectionStringsProvider();
+    });
     configurator.ConfigureWebDocumentViewer(viewerConfigurator =>
     {
         // Use cache for document generation and export.
