@@ -8,6 +8,7 @@ using DevExpress.AspNetCore.Reporting.QueryBuilder;
 using DevExpress.AspNetCore.Reporting.WebDocumentViewer.Native.Services;
 using DevExpress.AspNetCore.Reporting.WebDocumentViewer;
 using DevExpress.DataAccess.Sql;
+using ReportingBackendApp.Models;
 
 namespace ReportingBackendApp.Controllers
 {
@@ -33,6 +34,12 @@ namespace ReportingBackendApp.Controllers
                 .AddTable("Products")
                 .SelectAllColumnsFromTable()
                 .Build("Products");
+
+            SelectQuery query2 = SelectQueryFluentBuilder
+                .AddTable("Products")
+                .SelectAllColumns()
+                .Build("Products2");
+
 
             ds.Queries.Add(query);
             ds.RebuildResultSchema();
