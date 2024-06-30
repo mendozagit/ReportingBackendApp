@@ -1,14 +1,11 @@
 ﻿using DevExpress.AspNetCore.Reporting.ReportDesigner.Native.Services;
 using DevExpress.AspNetCore.Reporting.ReportDesigner;
 using DevExpress.XtraReports.Web.ReportDesigner.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DevExpress.AspNetCore.Reporting.QueryBuilder.Native.Services;
 using DevExpress.AspNetCore.Reporting.QueryBuilder;
 using DevExpress.AspNetCore.Reporting.WebDocumentViewer.Native.Services;
 using DevExpress.AspNetCore.Reporting.WebDocumentViewer;
-using DevExpress.DataAccess.Sql;
-using ReportingBackendApp.Models;
 
 namespace ReportingBackendApp.Controllers
 {
@@ -28,28 +25,28 @@ namespace ReportingBackendApp.Controllers
             //    .BuildModelAsync();
 
             // Create a SQL data source with the specified connection string.
-            SqlDataSource ds = new SqlDataSource("ReportsConnectionString");
-            // Create a SQL query to access the Products data table.
-            SelectQuery query = SelectQueryFluentBuilder
-                .AddTable("Products")
-                .SelectAllColumnsFromTable()
-                .Build("Products");
+            //SqlDataSource ds = new SqlDataSource("ReportsConnectionString");
+            //// Create a SQL query to access the Products data table.
+            //SelectQuery query = SelectQueryFluentBuilder
+            //    .AddTable("Products")
+            //    .SelectAllColumnsFromTable()
+            //    .Build("Products");
 
-            SelectQuery query2 = SelectQueryFluentBuilder
-                .AddTable("Products")
-                .SelectAllColumns()
-                .Build("Products2");
-
-
-            ds.Queries.Add(query);
-            ds.RebuildResultSchema();
-
-            var designerModel = await reportDesignerModelBuilder
-                .DataSources(x => { x.Add("ReportsConnectionString", ds); })
-                .BuildModelAsync();
+            //SelectQuery query2 = SelectQueryFluentBuilder
+            //    .AddTable("Products")
+            //    .SelectAllColumns()
+            //    .Build("Products2");
 
 
-            //var designerModel = await reportDesignerModelBuilder.BuildModelAsync();
+            //ds.Queries.Add(query);
+            //ds.RebuildResultSchema();
+
+            //var designerModel = await reportDesignerModelBuilder
+            //    .DataSources(x => { x.Add("ReportsConnectionString", ds); })
+            //    .BuildModelAsync();
+
+
+            var designerModel = await reportDesignerModelBuilder.BuildModelAsync();
 
 
             return DesignerModel(designerModel);

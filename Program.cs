@@ -1,8 +1,11 @@
 using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
+using DevExpress.DataAccess.Web;
+using DevExpress.DataAccess.Wizard.Services;
 using DevExpress.XtraReports.Web.Extensions;
 using Microsoft.EntityFrameworkCore;
 using ReportingBackendApp.Models;
+using ReportingBackendApp.Models.Connections;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +30,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+builder.Services.AddScoped<IConnectionProviderService, MyConnectionProviderService>();
+builder.Services.AddScoped<IConnectionProviderFactory, MyConnectionProviderFactory>();
+
+
 builder.Services.ConfigureReportingServices(configurator =>
 {
     if (builder.Environment.IsDevelopment())
@@ -36,7 +45,9 @@ builder.Services.ConfigureReportingServices(configurator =>
 
     configurator.ConfigureReportDesigner(designerConfigurator =>
     {
-        designerConfigurator.RegisterDataSourceWizardConfigFileConnectionStringsProvider();
+        // designerConfigurator.RegisterDataSourceWizardConfigFileConnectionStringsProvider();
+        designerConfigurator.RegisterDataSourceWizardConnectionStringsProvider<MyDataSourceWizardConnectionStringsProvider>();
+        designerConfigurator.EnableCustomSql();
     });
     configurator.ConfigureWebDocumentViewer(viewerConfigurator =>
     {
@@ -51,6 +62,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddScoped<ReportStorageWebExtension, ReportStorage>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 
 var app = builder.Build();
 app.UseCors("AllowCorsPolicy");

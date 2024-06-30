@@ -1,8 +1,4 @@
-﻿using DevExpress.XtraReports.UI;
-using Microsoft.EntityFrameworkCore;
-using ReportingBackendApp.Reports;
-using System;
-using System.Security.Policy;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ReportingBackendApp.Models
 {
