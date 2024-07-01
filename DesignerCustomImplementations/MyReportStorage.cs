@@ -1,13 +1,14 @@
 ﻿using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.Web.Extensions;
+using ReportingBackendApp.Models;
 
-namespace ReportingBackendApp.Models;
+namespace ReportingBackendApp.DesignerCustomImplementations;
 
-public class ReportStorage : ReportStorageWebExtension
+public class MyReportStorage : ReportStorageWebExtension
 {
     protected ApplicationDbContext DbContext { get; set; }
 
-    public ReportStorage(ApplicationDbContext dbContext)
+    public MyReportStorage(ApplicationDbContext dbContext)
     {
         DbContext = dbContext;
     }
@@ -41,10 +42,10 @@ public class ReportStorage : ReportStorageWebExtension
         if (reportData != null)
             return reportData.LayoutData;
 
-        if (ReportsFactory.Reports.ContainsKey(url))
+        if (MyReportsFactory.Reports.ContainsKey(url))
         {
             using var ms = new MemoryStream();
-            using XtraReport report = ReportsFactory.Reports[url]();
+            using XtraReport report = MyReportsFactory.Reports[url]();
             report.SaveLayoutToXml(ms);
             return ms.ToArray();
         }
@@ -61,7 +62,7 @@ public class ReportStorage : ReportStorageWebExtension
         return DbContext.Reports
             .ToList()
             .Select(x => x.Name)
-            .Union(ReportsFactory.Reports.Select(x => x.Key))
+            .Union(MyReportsFactory.Reports.Select(x => x.Key))
             .ToDictionary(x => x);
     }
 

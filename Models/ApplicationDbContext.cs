@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ReportingBackendApp.DesignerCustomImplementations;
 
 namespace ReportingBackendApp.Models
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<SqlDataConnectionDescription> SqlDataConnections { get; set; }
         public DbSet<ReportItem> Reports { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -48,12 +48,12 @@ namespace ReportingBackendApp.Models
 
         byte[] GetReportBytes(string reportName)
         {
-            if (!ReportsFactory.Reports.ContainsKey(reportName))
+            if (!MyReportsFactory.Reports.ContainsKey(reportName))
                 throw new DevExpress.XtraReports.Web.ClientControls.FaultException(
                     $"Could not find report '{reportName}'.");
 
             using var ms = new MemoryStream();
-            using var report = ReportsFactory.Reports[reportName]();
+            using var report = MyReportsFactory.Reports[reportName]();
             report.SaveLayoutToXml(ms);
             return ms.ToArray();
         }

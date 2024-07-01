@@ -4,8 +4,8 @@ using DevExpress.DataAccess.Web;
 using DevExpress.DataAccess.Wizard.Services;
 using DevExpress.XtraReports.Web.Extensions;
 using Microsoft.EntityFrameworkCore;
+using ReportingBackendApp.DesignerCustomImplementations;
 using ReportingBackendApp.Models;
-using ReportingBackendApp.Models.Connections;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,7 +59,7 @@ builder.Services.ConfigureReportingServices(configurator =>
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddScoped<ReportStorageWebExtension, ReportStorage>();
+builder.Services.AddScoped<ReportStorageWebExtension, MyReportStorage>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 

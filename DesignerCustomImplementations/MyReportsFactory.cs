@@ -1,9 +1,9 @@
 ﻿using DevExpress.XtraReports.UI;
 using ReportingBackendApp.Reports;
 
-namespace ReportingBackendApp.Models;
+namespace ReportingBackendApp.DesignerCustomImplementations;
 
-public static class ReportsFactory
+public static class MyReportsFactory
 {
     public static Dictionary<string, Func<XtraReport>> Reports = new Dictionary<string, Func<XtraReport>>()
     {
