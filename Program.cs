@@ -2,8 +2,10 @@ using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
 using DevExpress.DataAccess.Web;
 using DevExpress.DataAccess.Wizard.Services;
+using DevExpress.XtraReports.Web.ClientControls;
 using DevExpress.XtraReports.Web.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ReportingBackendApp.DesignerCustomImplementations;
 using ReportingBackendApp.Models;
 
@@ -48,14 +50,18 @@ builder.Services.ConfigureReportingServices(configurator =>
         // designerConfigurator.RegisterDataSourceWizardConfigFileConnectionStringsProvider();
         designerConfigurator.RegisterDataSourceWizardConnectionStringsProvider<MyDataSourceWizardConnectionStringsProvider>();
         designerConfigurator.EnableCustomSql();
+
     });
     configurator.ConfigureWebDocumentViewer(viewerConfigurator =>
     {
         // Use cache for document generation and export.
         // This setting is necessary in asynchronous mode and when a report has interactive or drill down features.
         viewerConfigurator.UseCachedReportSourceBuilder();
+        
     });
 });
+
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
